@@ -1,4 +1,4 @@
-class Product {
+class Product { 
   constructor(id, name, price, image, description) {
     this.id = id;
     this.name = name;
@@ -41,7 +41,7 @@ class Cart {
 const products = [
   new Product(1, 'ASUS ROG Strix G17 2023 17.3” QHD', 19.99, 'https://images-cdn.ubuy.co.in/67c3399a157ced505c376a68-asus-rog-strix-g17-2023-17-3-qhd.jpg', 'This is an amazing product that you will love!'),
   new Product(2, 'ASUS TUF Gaming A15', 29.99, 'https://m.media-amazon.com/images/I/61xBASwU+zL._SX679_.jpg', 'A premium product with excellent features.'),
-  new Product(3, 'Acer Predator Helios 300 Gaming Laptop', 39.99, 'https://m.media-amazon.com/images/I/81g7AiqWrtL._SX679_.jpg', 'Best for everyday use, high durability and performance.'),
+  new Product(3, 'Acer Predator Helios 300', 39.99, 'https://m.media-amazon.com/images/I/81g7AiqWrtL._SX679_.jpg', 'Best for everyday use, high durability and performance.'),
   new Product(4, 'Lenovo IdeaPad Gaming 3', 49.99, 'https://m.media-amazon.com/images/I/7173difaarL._SX679_.jpg', 'An innovative product that makes life easier.')
 ];
 
@@ -55,30 +55,31 @@ document.getElementById('proceed-to-checkout').addEventListener('click', () => {
   alert("Proceeding to Checkout... Please wait...");
 });
 
-function changecolor() {
-  const isDark = document.body.classList.toggle('light-theme');
-  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+function toggleTheme() {
+  const isLightTheme = document.body.classList.toggle('light-theme');
+  localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
+  document.getElementById('tog').style.backgroundColor = isLightTheme ? 'black' : 'red';
 }
 
 function loadTheme() {
   const theme = localStorage.getItem('theme') || 'dark';
-  if (theme === 'light') document.body.classList.add('light-theme');
+  if (theme === 'light') {
+    document.body.classList.add('light-theme');
+    document.getElementById('tog').style.backgroundColor = 'black';
+  } else {
+    document.getElementById('tog').style.backgroundColor = 'red';
+  }
 }
 
 window.onload = loadTheme;
+document.getElementById('tog').addEventListener('click', toggleTheme);
 
-let timer;
-let timeLeft = 0;
-let isRunning = false;
-
-const startButton = document.getElementById("start-btn");
-const pauseButton = document.getElementById("pause-btn");
-const resetButton = document.getElementById("reset-btn");
+let timer, timeLeft = 0, isRunning = false;
 const timerDisplay = document.getElementById("timer-display");
 const inputTime = document.getElementById("input-time");
 
 function updateTimerDisplay() {
-  timerDisplay.textContent = `${String(timeLeft).padStart(2, "0")}`;
+  timerDisplay.textContent = `${timeLeft}s`;
   updateBackgroundColor();
 }
 
@@ -99,6 +100,7 @@ function startCountdown() {
   timeLeft = parseInt(inputTime.value);
   isRunning = true;
   updateTimerDisplay();
+
   timer = setInterval(() => {
     if (timeLeft > 0) {
       timeLeft--;
@@ -106,6 +108,7 @@ function startCountdown() {
     } else {
       clearInterval(timer);
       isRunning = false;
+      alert("Time's up!");
     }
   }, 1000);
 }
@@ -122,6 +125,6 @@ function resetCountdown() {
   updateTimerDisplay();
 }
 
-startButton.addEventListener("click", startCountdown);
-pauseButton.addEventListener("click", pauseCountdown);
-resetButton.addEventListener("click", resetCountdown);
+document.getElementById("start-btn").addEventListener("click", startCountdown);
+document.getElementById("pause-btn").addEventListener("click", pauseCountdown);
+document.getElementById("reset-btn").addEventListener("click", resetCountdown);
