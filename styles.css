@@ -276,4 +276,16 @@
     font-size: 16px;
     width: 100px;
   }
-  
+  .light-theme {
+  background-color: white !important;
+  color: black !important;
+}
+
+.light-theme header {
+  background-color: white !important;
+  color: black !important;
+}
+
+.light-theme .shoppingcart {
+  background-color: rgb(255, 139, 139) !important;
+}
