@@ -260,6 +260,11 @@
         padding: 10px;
         background-color: #f39c12;
     }
+    #resume-btn{
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #f39c12;
+    }
     #reset-btn{
       border-radius: 10px;
     padding: 10px;
