@@ -118,6 +118,22 @@ function pauseCountdown() {
   isRunning = false;
 }
 
+function resumeCountdown() {
+  if (isRunning || timeLeft <= 0) return;
+  isRunning = true;
+
+  timer = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+      updateTimerDisplay();
+    } else {
+      clearInterval(timer);
+      isRunning = false;
+      alert("Time's up!");
+    }
+  }, 1000);
+}
+
 function resetCountdown() {
   clearInterval(timer);
   isRunning = false;
@@ -127,4 +143,5 @@ function resetCountdown() {
 
 document.getElementById("start-btn").addEventListener("click", startCountdown);
 document.getElementById("pause-btn").addEventListener("click", pauseCountdown);
+document.getElementById("resume-btn").addEventListener("click", resumeCountdown);
 document.getElementById("reset-btn").addEventListener("click", resetCountdown);
