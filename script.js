@@ -64,27 +64,48 @@ class Product {
     alert("Proceeding to Checkout... Please wait...");
   });
 
-  function changecolor() {
-    let t = window.getComputedStyle(document.body).backgroundColor;
-     
-    let sc=document.querySelector('.shoppingcart');
-    let header = document.querySelector('header');
+function changecolor() {
+  let currentTheme = window.getComputedStyle(document.body).backgroundColor;
+  
+  let header = document.querySelector('header');
+  let sc = document.querySelector('.shoppingcart');
 
-    if (t === "rgb(0, 0, 0)") {
-        document.body.style.backgroundColor = "rgb(255, 255, 255)"; 
-        header.style.backgroundColor = "rgb(255, 255, 255)"; 
-        document.body.style.color = "rgb(0, 0, 0)"; 
-        header.style.color = "rgb(0, 0, 0)"; 
-        sc.style.backgroundColor="rgb(255, 139, 139)";
-    }
-    else {
-        document.body.style.backgroundColor = "rgb(0, 0, 0)"; 
-        header.style.backgroundColor = "rgb(0, 0, 0)"; 
-        document.body.style.color = "rgb(255, 255, 255)";
-        header.style.color = "rgb(255, 255, 255)";
-        sc.style.backgroundColor=" rgb(51, 51, 51)";
-    }
+  if (currentTheme === "rgb(0, 0, 0)") {
+    // Light mode
+    document.body.style.backgroundColor = "rgb(255, 255, 255)";
+    header.style.backgroundColor = "rgb(255, 255, 255)";
+    document.body.style.color = "rgb(0, 0, 0)";
+    header.style.color = "rgb(0, 0, 0)";
+    sc.style.backgroundColor = "rgb(255, 139, 139)";
+    localStorage.setItem('theme', 'light'); 
+  } else {
+    document.body.style.backgroundColor = "rgb(0, 0, 0)";
+    header.style.backgroundColor = "rgb(0, 0, 0)";
+    document.body.style.color = "rgb(255, 255, 255)";
+    header.style.color = "rgb(255, 255, 255)";
+    sc.style.backgroundColor = "rgb(51, 51, 51)";
+    localStorage.setItem('theme', 'dark');  }
 }
+
+function loadTheme() {
+  const theme = localStorage.getItem('theme');
+  if (theme === 'light') {
+    document.body.style.backgroundColor = "rgb(255, 255, 255)";
+    document.body.style.color = "rgb(0, 0, 0)";
+    document.querySelector('header').style.backgroundColor = "rgb(255, 255, 255)";
+    document.querySelector('header').style.color = "rgb(0, 0, 0)";
+    document.querySelector('.shoppingcart').style.backgroundColor = "rgb(255, 139, 139)";
+  } else {
+    document.body.style.backgroundColor = "rgb(0, 0, 0)";
+    document.body.style.color = "rgb(255, 255, 255)";
+    document.querySelector('header').style.backgroundColor = "rgb(0, 0, 0)";
+    document.querySelector('header').style.color = "rgb(255, 255, 255)";
+    document.querySelector('.shoppingcart').style.backgroundColor = "rgb(51, 51, 51)";
+  }
+}
+
+window.onload = loadTheme;
+
 
 
 
@@ -101,21 +122,22 @@ const inputTime = document.getElementById("input-time");
 
 function updateTimerDisplay() {
   let seconds = timeLeft;
-  timerDisplay.textContent = `${String(seconds).padStart(2, "0")}`;
-  updateBackgroundColor();
+  timerDisplay.textContent = `${String(seconds).padStart(2, "0")}`; 
+  updateBackgroundColor(); 
 }
 
 function updateBackgroundColor() {
   if (timeLeft > 10) {
-    document.body.style.backgroundColor = "green";
+    document.body.style.backgroundColor = "green"; 
   } else if (timeLeft <= 10 && timeLeft > 5) {
-    document.body.style.backgroundColor = "yellow";
+    document.body.style.backgroundColor = "yellow"; 
   } else if (timeLeft <= 5 && timeLeft > 0) {
-    document.body.style.backgroundColor = "red";
+    document.body.style.backgroundColor = "red"; 
   } else {
     document.body.style.backgroundColor = "#f0f0f0"; 
   }
 }
+
 
 function startCountdown() {
   if (!isRunning) {
@@ -161,3 +183,57 @@ pauseButton.addEventListener("click", () => {
 resetButton.addEventListener("click", () => {
   resetCountdown();
 });
+
+<table id="product-table">
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<input type="text" id="product-name" placeholder="Enter product name" />
+<input type="number" id="product-price" placeholder="Enter price" />
+<button id="add-row-btn">Add Row</button>
+document.getElementById('add-row-btn').addEventListener('click', () => {
+  const name = document.getElementById('product-name').value;
+  const price = document.getElementById('product-price').value;
+
+  const tableBody = document.querySelector('#product-table tbody');
+  const newRow = tableBody.insertRow();
+
+  const cell1 = newRow.insertCell(0);
+  const cell2 = newRow.insertCell(1);
+  const cell3 = newRow.insertCell(2);
+
+  cell1.textContent = name;
+  cell2.textContent = price;
+  cell3.innerHTML = `<button class="delete-btn">Delete</button>`;
+
+  // Add delete functionality
+  newRow.querySelector('.delete-btn').addEventListener('click', () => {
+    tableBody.deleteRow(newRow.rowIndex - 1); // Remove row
+  });
+});
+<section class="interactive-gallery">
+  <div class="thumbnails">
+    <img src="image1.jpg" class="thumbnail" onclick="openImage(this.src)" />
+    <img src="image2.jpg" class="thumbnail" onclick="openImage(this.src)" />
+    <img src="image3.jpg" class="thumbnail" onclick="openImage(this.src)" />
+  </div>
+  <div id="lightbox" style="display: none;">
+    <span onclick="closeImage()">X</span>
+    <img id="lightbox-img" src="" />
+  </div>
+</section>
+function openImage(src) {
+  document.getElementById('lightbox').style.display = 'block';
+  document.getElementById('lightbox-img').src = src;
+}
+
+function closeImage() {
+  document.getElementById('lightbox').style.display = 'none';
+}
+
