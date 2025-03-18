@@ -85,15 +85,16 @@ function updateTimerDisplay() {
 
 function updateBackgroundColor() {
   if (timeLeft > 10) {
-    document.body.style.backgroundColor = "green";
+    timerDisplay.style.backgroundColor = "green";
   } else if (timeLeft > 5) {
-    document.body.style.backgroundColor = "yellow";
+    timerDisplay.style.backgroundColor = "yellow";
   } else if (timeLeft > 0) {
-    document.body.style.backgroundColor = "red";
+    timerDisplay.style.backgroundColor = "red";
   } else {
-    document.body.style.backgroundColor = document.body.classList.contains('light-theme') ? "white" : "black";
+    timerDisplay.style.backgroundColor = document.body.classList.contains('light-theme') ? "white" : "black";
   }
 }
+
 
 function startCountdown() {
   if (isRunning || isNaN(parseInt(inputTime.value))) return;
